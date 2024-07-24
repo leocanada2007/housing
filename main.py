@@ -78,7 +78,7 @@ def tab2():
 
   i = round(interest_calculator(c, r, P, T),2)
 
-  st.write("Cumulative Interests for {} Months Are {}".format(T, i)
+  st.write("Cumulative Interests for {} Months Are {}".format(T, i))
 
 
 
