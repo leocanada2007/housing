@@ -72,7 +72,7 @@ def tab2():
 
   st.write("Monthly Payment is {}".format(c))
 
-  st.write("To Calculate Cumulative Interests")
+  st.title("To Calculate Cumulative Interests")
 
   T = st.number_input("Enter Interest Period in Month")
 
