@@ -34,15 +34,15 @@ def interest_calculator(c,r,P,N):
 def tab1():
   price = st.number_input("Enter Your Purchase Price")
 
-  total_commission = 7000 + (price-100000)*0.025
+  total_commission = round(7000 + (price-100000)*0.02, 2)
 
   total_commission_percentage = round((total_commission/price)*100, 3)
 
-  buy_commission = 3220+0.0115*(price-100000)
+  buy_commission = round(3220+0.0115*(price-100000), 2)
 
   buy_commission_percentage = round((buy_commission / price)*100, 3)
 
-  listing_commission = 3780 + 0.0135*(price-100000)
+  listing_commission = round(3780 + 0.0135*(price-100000),2)
   
   listing_commission_percentage = round((listing_commission / price)*100, 3)
 
