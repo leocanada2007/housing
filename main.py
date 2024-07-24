@@ -8,6 +8,7 @@ import streamlit as st
 
 def tab1():
   number = st.number_input("Enter Your Purchase Price")
+  st.write("123")
 
   
   
