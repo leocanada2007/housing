@@ -70,8 +70,6 @@ def tab2():
 
   c = round(payment_calculator(r,P,N),2)
 
-  st.markdown("Monthly Payment is {}".format(c))
-
   st.title("To Calculate Cumulative Interests")
 
   T = st.number_input("Enter Interest Period in Month")
@@ -80,7 +78,7 @@ def tab2():
 
   st.markdown("Monthly Payment is {}".format(c))
 
-  st.markdown("red[Cumulative Interests] for {} Months Are {}".format(T, i))
+  st.markdown("Cumulative Interests for {} Months Are {}".format(T, i))
 
 
 
