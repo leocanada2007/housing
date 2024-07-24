@@ -1,9 +1,34 @@
 import streamlit as st
 
+def payment_calculator(r,P,N):
+    
+    # r is the annual interest rate
+    # P is the principal
+    # N is the loan's term
+    
+    r_m = r/12
+    
+    c = (r_m * P)/(1-(1+r_m)**(-N))
+    
+    return c
+
+
+def interest_calculator(c,r,P,N):
+    
+    # c is the monthly payment from payment calculator
+    # r is the annual interest rate
+    # P is the principal
+    # N month for interest calculation. Note this is different from the N in payment calculator 
+    
+    r_m = r/12
+    
+    i = (P*r_m-c)*((1+r_m)**N-1)/r_m + c*N
+    
+    return i
 
 #%%
 #==============================================================================
-# Tab 1 Overall
+# Tab 1 Commission
 #==============================================================================
 
 def tab1():
@@ -31,6 +56,23 @@ def tab1():
   
   
 
+#%%
+#==============================================================================
+# Tab 2 Mortgage
+#==============================================================================
+
+def tab2():
+
+  
+  p = st.number_input("Enter Loan Amount")
+  r = st.number_input("Enter Effective Annual Interest Rate in Decimals")
+  N = st.number_input("Enter Amortization Period in Month")
+
+  c = round(payment_calculator(r,P,N),2)
+
+  st.write("Monthly Payment is {}".format(c))
+  
+ 
 
     
 
