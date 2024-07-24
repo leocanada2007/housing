@@ -70,7 +70,7 @@ def tab2():
 
   c = round(payment_calculator(r,P,N),2)
 
-  st.write("Monthly Payment is {}".format(c))
+  st.write("blue[Monthly Payment] is {}".format(c))
 
   st.title("To Calculate Cumulative Interests")
 
@@ -78,7 +78,7 @@ def tab2():
 
   i = round(interest_calculator(c, r, P, T),2)
 
-  st.write("Cumulative Interests for {} Months Are {}".format(T, i))
+  st.write("blue[Cumulative Interests] for {} Months Are {}".format(T, i))
 
 
 
