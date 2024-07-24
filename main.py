@@ -15,7 +15,7 @@ def tab1():
 
   buy_commission = 3220+0.0115*(price-100000)
 
-  buy_commission_percentage = round((buy_commission / price)*100，2)
+  buy_commission_percentage = round((buy_commission / price)*100, 2)
 
   listing_commission = 3780 + 0.0135*(price-100000)
 
