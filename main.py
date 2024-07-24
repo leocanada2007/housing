@@ -19,7 +19,7 @@ def tab1():
 
   listing_commission = 3780 + 0.0135*(price-100000)
 
-  st.write("佣金总数： {}，占成交价的{}%".format(total_commission， total_commission_percentage))
+  st.write("佣金总数： {}，占成交价的{}%".format(total_commission, total_commission_percentage))
 
   st.write("佣金总数： {}".format(total_commission))
 
