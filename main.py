@@ -7,8 +7,20 @@ import streamlit as st
 #==============================================================================
 
 def tab1():
-  number = st.number_input("Enter Your Purchase Price")
-  st.write("123")
+  price = st.number_input("Enter Your Purchase Price")
+
+  total_commission = 7000 + (price-100000)*0.025
+
+  total_commission_percentage = round((total_commission/price)*100, 2)
+
+  buy_commission = 3220+0.0115*(price-100000)
+
+  buy_commission_percentage = buy_commission / price
+
+  listing_commission = 3780 + 0.0135*(price-100000)
+
+  st.write("hello {}".format(total_commission))
+
 
   
   
