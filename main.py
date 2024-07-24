@@ -32,7 +32,7 @@ def interest_calculator(c,r,P,N):
 #==============================================================================
 
 def tab1():
-  price = st.number_input("Enter Your Purchase Price")
+  price = st.number_input("Enter Purchase Price")
 
   total_commission = round(7000 + (price-100000)*0.02, 2)
 
