@@ -5,6 +5,8 @@ def payment_calculator(r,P,N):
     # r is the annual interest rate
     # P is the principal
     # N is the loan's term
+
+    r = r/100
     
     r_m = r/12
     
@@ -19,6 +21,8 @@ def interest_calculator(c,r,P,N):
     # r is the annual interest rate
     # P is the principal
     # N month for interest calculation. Note this is different from the N in payment calculator 
+
+    r = r/100
     
     r_m = r/12
     
@@ -65,7 +69,7 @@ def tab2():
 
   
   P = st.number_input("Enter Loan Amount")
-  r = st.number_input("Enter Effective Annual Interest Rate in Decimals")
+  r = st.number_input("Enter Effective Annual Interest Rate in %")
   N = st.number_input("Enter Amortization Period in Month")
 
   c = round(payment_calculator(r,P,N),2)
