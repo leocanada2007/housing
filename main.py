@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 import io
 import pandas as pd
-
+import plotly.express as px
 
 def payment_calculator(r,P,N):
     
