@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 import io
 import pandas as pd
-from json import loads
+
 
 def payment_calculator(r,P,N):
     
@@ -102,14 +102,16 @@ def tab3():
     text = requests.get(url).text[1170:]
 
     df = pd.read_csv(io.StringIO(text), sep=",")
+    df['date'] = pd.to_datetime(df['date']).dt.date
 
     # plotly setup 3 Month Year Treasury
-    fig_3m = px.line(df, x=df['DATE'], y=['DTB3', 'DGS10'])
+    fig_3m = px.line(df, x=df['date'], y=['BD.CDN.2YR.DQ.YLD', 'BD.CDN.5YR.DQ.YLD', BD.CDN.10YR.DQ.YLD])
     fig_3m.update_xaxes(showgrid=False, gridwidth=1, gridcolor='rgba(0,0,255,0.1)')
     fig_3m.update_yaxes(showgrid=False, gridwidth=1, gridcolor='rgba(0,0,255,0.1)')
-    
-    fig_3m = bgLevels(df=df, fig = fig_3m, variable = 'USRECDM', level = 0.5, mode = 'above',
-                   fillcolor = 'rgba(100,100,100,0.2)', layer = 'below')
+
+    st.title('国债收益')
+    st.plotly_chart(fig_3m)
+
       
 
   
@@ -128,13 +130,15 @@ def run():
     
     
     # Add a radio box
-    select_tab = st.sidebar.radio("Select tab", ['佣金', '贷款'])
+    select_tab = st.sidebar.radio("Select tab", ['佣金', '贷款', '加拿大国债'])
 
     # Show the selected tab
     if select_tab == '佣金':
         tab1()
     elif select_tab == '贷款':
         tab2()
+    elif select_tab == '加拿大国债':
+        tab3()    
    
         
 if __name__ == "__main__":
