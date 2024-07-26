@@ -105,7 +105,7 @@ def tab3():
     df['date'] = pd.to_datetime(df['date']).dt.date
 
     # plotly setup 3 Month Year Treasury
-    fig_3m = px.line(df, x=df['date'], y=['BD.CDN.2YR.DQ.YLD', 'BD.CDN.5YR.DQ.YLD', BD.CDN.10YR.DQ.YLD])
+    fig_3m = px.line(df, x=df['date'], y=['BD.CDN.2YR.DQ.YLD', 'BD.CDN.5YR.DQ.YLD', 'BD.CDN.10YR.DQ.YLD'])
     fig_3m.update_xaxes(showgrid=False, gridwidth=1, gridcolor='rgba(0,0,255,0.1)')
     fig_3m.update_yaxes(showgrid=False, gridwidth=1, gridcolor='rgba(0,0,255,0.1)')
 
