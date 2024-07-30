@@ -55,11 +55,11 @@ def tab1():
   
   listing_commission_percentage = round((listing_commission / price)*100, 3)
 
-  st.write("佣金总数： {}，占成交价的{}%".format(total_commission, total_commission_percentage))
+  st.write("Total Commission： {}, {}% of purchase price".format(total_commission, total_commission_percentage))
 
-  st.write("买方佣金总数： {}，占成交价的{}%".format(buy_commission, buy_commission_percentage))
+  st.write("Commission for Buyer's Agent: {}, {}% of purchase price".format(buy_commission, buy_commission_percentage))
   
-  st.write("卖方佣金总数： {}，占成交价的{}%".format(listing_commission, listing_commission_percentage))
+  st.write("Commission for Seller's Agent: {}, {}% of purchase price".format(listing_commission, listing_commission_percentage))
 
 
   
@@ -242,7 +242,7 @@ def tab4():
     fig_3m.update_xaxes(showgrid=False, gridwidth=1, gridcolor='rgba(0,0,255,0.1)')
     fig_3m.update_yaxes(showgrid=False, gridwidth=1, gridcolor='rgba(0,0,255,0.1)')
 
-    st.title('国债收益')
+    st.title('T-bill Yields (Canada)')
     st.plotly_chart(fig_3m)
 
       
@@ -263,16 +263,16 @@ def run():
     
     
     # Add a radio box
-    select_tab = st.sidebar.radio("Select tab", ['佣金', '贷款', '固定 Vs. 浮动', '加拿大国债'])
+    select_tab = st.sidebar.radio("Select tab", ['Commission', 'Mortgage Payment Calculator', 'Variable Vs. Fixed Mortage', 'T-bill Yields (Canada)'])
 
     # Show the selected tab
-    if select_tab == '佣金':
+    if select_tab == 'Commission':
         tab1()
-    elif select_tab == '贷款':
+    elif select_tab == 'Mortgage Payment Calculator':
         tab2()
-    elif select_tab == '固定 Vs. 浮动':
+    elif select_tab == 'Variable Vs. Fixed Mortage':
         tab3()        
-    elif select_tab == '加拿大国债':
+    elif select_tab == 'T-bill Yields (Canada)':
         tab4()    
    
         
