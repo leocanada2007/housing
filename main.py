@@ -97,7 +97,7 @@ def tab2():
 # Tab 3 Fixed Vs. Varible
 #==============================================================================
 
-def tab_3():
+def tab3():
     st.markdown('''
     :red[Be very careful for interest rate hikes as this program assumes trigger rate is never hit.]''')
     
