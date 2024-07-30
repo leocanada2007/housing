@@ -90,12 +90,144 @@ def tab2():
 
 
 
+
+
+#%%
+#==============================================================================
+# Tab 3 Fixed Vs. Varible
+#==============================================================================
+
+def tab_VF():
+    st.markdown('''
+    :red[Be very careful for interest rate hikes as this program assumes trigger rate is never hit.]''')
+    
+    st.write("Use the sample input file as template. Add rows as needed, but do not change columns.")
+    
+    text_contents = '''Month,Variable Rate (%),Fixed Rate (%)
+                        1,5,4
+                        2,5,4
+                        3,4.75,4
+                        4,4.75,4
+                        5,4.5,4
+                        6,4.5,4
+                        7,4.25,4
+                        8,4.25,4
+                        9,4,4
+                        10,4,4
+                        11,3.5,4
+                        12,3.5,4'''
+    
+    st.download_button('Download Sample Input File', text_contents, 'Sample_input.csv')
+    
+    rates = st.file_uploader("Upload Custom Rates")
+    custom_rate = pd.read_csv(rates)
+
+
+    row_min = 1
+    row_max = len(custom_rate)
+    
+    P = st.number_input("Enter Loan Amount")
+    N = st.number_input("Enter Amortization Period in Month")
+    gic_rate = st.number_input("Enter Discount Rate (%) for Present Value Analysis (Optional)")/100
+
+    # Variable Rate Analysis
+    
+    
+    r = custom_rate.iloc[0,1]/100
+    
+    c = payment_calculator(r,P,N)
+    
+    custom_rate['monthly_payment_variable'] = c
+    
+    custom_rate['interest_variable'] = np.nan
+    custom_rate['unpaid_balance_variable'] = np.nan
+    
+    
+    
+    custom_rate.iloc[0,4] = P * r / 12
+    custom_rate.iloc[0,5] = P - c + custom_rate.iloc[0,4]
+    
+    
+    
+    
+    for row in range(row_min, row_max):
+        last_row = row - 1
+        custom_rate.iloc[row,4] = custom_rate.iloc[last_row,5] * custom_rate.iloc[row,1] / 100 / 12
+        custom_rate.iloc[row,5] = custom_rate.iloc[last_row,5] - custom_rate.iloc[row,3] + custom_rate.iloc[row,4]
+        
+    
+       
+    # Fixed Rate Analysis
+    
+    
+    
+    
+    r = custom_rate.iloc[0,2]/100
+    
+    c = payment_calculator(r,P,N)
+    
+    custom_rate['monthly_payment_fixed'] = c
+    
+    custom_rate['interest_fixed'] = np.nan
+    custom_rate['unpaid_balance_fixed'] = np.nan
+    
+    custom_rate.iloc[0,7] = P * r / 12
+    custom_rate.iloc[0,8] = P - c + custom_rate.iloc[0,7]
+    
+    
+    
+    
+    
+    
+    for row in range(row_min, row_max):
+        last_row = row - 1
+        custom_rate.iloc[row,7] = custom_rate.iloc[last_row,8] * custom_rate.iloc[row,2] / 100 / 12
+        custom_rate.iloc[row,8] = custom_rate.iloc[last_row,8] - custom_rate.iloc[row,6] + custom_rate.iloc[row,7]
+        
+    
+    custom_rate['cumulative_interests_variable'] = custom_rate['interest_variable'].cumsum()
+    custom_rate['cumulative_interests_fixed'] = custom_rate['interest_fixed'].cumsum()
+    
+
+    custom_rate['interest_variable_pv'] = custom_rate['interest_variable']/((1+gic_rate/12)**custom_rate['Month'])
+    custom_rate['interest_fixed_pv'] = custom_rate['interest_fixed']/((1+gic_rate/12)**custom_rate['Month'])
+    
+    
+    custom_rate['cumulative_interests_variable_pv'] = custom_rate['interest_variable_pv'].cumsum()
+    custom_rate['cumulative_interests_fixed_pv'] = custom_rate['interest_fixed_pv'].cumsum()
+    
+    fig_interest = px.line(custom_rate,
+            x=custom_rate.Month,
+            y=custom_rate.columns[[9,10]]
+            )
+    
+    st.title('Cumulative Interests') 
+    st.plotly_chart(fig_interest)
+    
+    fig_interest_pv = px.line(custom_rate,
+            x=custom_rate.Month,
+            y=custom_rate.columns[[13,14]]
+            )
+    
+    st.title('Cumulative Interests: PV') 
+    st.plotly_chart(fig_interest_pv)
+    
+    
+    
+
+
+
+
+
+
+
+
 #%%
 #==============================================================================
 # Tab 3 Bond
 #==============================================================================
 
-def tab3():
+def tab4():
     
     url = "https://www.bankofcanada.ca/valet/observations/group/bond_yields_all/csv"
 
@@ -130,15 +262,17 @@ def run():
     
     
     # Add a radio box
-    select_tab = st.sidebar.radio("Select tab", ['佣金', '贷款', '加拿大国债'])
+    select_tab = st.sidebar.radio("Select tab", ['佣金', '贷款', '固定 Vs. 浮动', '加拿大国债'])
 
     # Show the selected tab
     if select_tab == '佣金':
         tab1()
     elif select_tab == '贷款':
         tab2()
+    elif select_tab == '固定 Vs. 浮动':
+        tab3()        
     elif select_tab == '加拿大国债':
-        tab3()    
+        tab4()    
    
         
 if __name__ == "__main__":
