@@ -55,11 +55,11 @@ def tab1():
   
   listing_commission_percentage = round((listing_commission / price)*100, 3)
 
-  st.write("Total Commission: {}, {}% of purchase price".format(total_commission, total_commission_percentage))
+  st.write("Total Commission: {}, or {}% of purchase price".format(total_commission, total_commission_percentage))
 
-  st.write("Commission for Buyer's Agent: {}, {}% of purchase price".format(buy_commission, buy_commission_percentage))
+  st.write("Commission for Buyer's Agent: {}, or {}% of purchase price".format(buy_commission, buy_commission_percentage))
   
-  st.write("Commission for Seller's Agent: {}, {}% of purchase price".format(listing_commission, listing_commission_percentage))
+  st.write("Commission for Seller's Agent: {}, or {}% of purchase price".format(listing_commission, listing_commission_percentage))
 
 
   
