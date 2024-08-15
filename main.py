@@ -18,17 +18,19 @@ def payment_calculator(r,P,N,f = 'Monthly'):
     
     r_m = (1+r_e)**(1/12)-1
 
-    if f == 'Semi-monthly':
-        r_m = r_m/2
-
-    elif f == 'Bi-weekly':
-        r_m = r_m*12/26
-        
-    elif f == 'Weekly':
-        r_m = r_m*12/52
     
     
     c = (r_m * P)/(1-(1+r_m)**(-N))
+
+    
+    if f == 'Semi-monthly':
+        c = c/2
+
+    elif f == 'Bi-weekly':
+        c = c*12/26
+        
+    elif f == 'Weekly':
+        c = c*12/52
     
     return c
 
