@@ -7,13 +7,15 @@ import plotly.express as px
 
 def payment_calculator(r,P,N):
     
-    # r is the annual interest rate
+    # r is the nominal annual interest rate
     # P is the principal
     # N is the loan's term
 
     r = r/100
+
+    r_e = (1+r/2)**2-1
     
-    r_m = r/12
+    r_m = (1+r_e)**(1/12)-1
     
     c = (r_m * P)/(1-(1+r_m)**(-N))
     
@@ -67,14 +69,14 @@ def tab1():
 
 #%%
 #==============================================================================
-# Tab 2 Mortgage
+# Tab 2 Mortgage Payment
 #==============================================================================
 
 def tab2():
 
   
   P = st.number_input("Enter Loan Amount")
-  r = st.number_input("Enter Effective Annual Interest Rate in %")
+  r = st.number_input("Enter Nominal Interest Rate in %")
   N = st.number_input("Enter Amortization Period in Month")
 
   c = round(payment_calculator(r,P,N),2)
