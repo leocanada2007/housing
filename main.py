@@ -5,17 +5,28 @@ import numpy as np
 import pandas as pd
 import plotly.express as px
 
-def payment_calculator(r,P,N):
+def payment_calculator(r,P,N,f = 'Monthly'):
     
     # r is the nominal annual interest rate
     # P is the principal
     # N is the loan's term
+    # f is the payment frequency
 
     r = r/100
 
     r_e = (1+r/2)**2-1
     
     r_m = (1+r_e)**(1/12)-1
+
+    if f = 'Semi-monthly':
+        r_m = r_m/2
+
+    elif f = 'Bi-weekly':
+        r_m = r_m*12/26
+        
+    elif f = 'Weekly':
+        r_m = r_m*12/52
+    
     
     c = (r_m * P)/(1-(1+r_m)**(-N))
     
@@ -78,8 +89,10 @@ def tab2():
   P = st.number_input("Enter Loan Amount")
   r = st.number_input("Enter Nominal Interest Rate in %")
   N = st.number_input("Enter Amortization Period in Month")
+  f = st.selectbox("Select Payment Frequency",
+    ("Monthly", "Semi-monthly", "Bi-weekly", "Weekly"),)
 
-  c = round(payment_calculator(r,P,N),2)
+  c = round(payment_calculator(r,P,N,f),2)
 
   st.title("To Calculate Cumulative Interests")
 
