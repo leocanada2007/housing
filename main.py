@@ -141,6 +141,69 @@ def interest_rate(r,f = 'Monthly'):
     
     return r_e, r_m
 
+
+
+def fixed_variable_rate(df,P,a):
+    
+    df['Variable Rate (%)'] = df['Variable Rate (%)']/100
+    df['Fixed Rate (%)'] = df['Fixed Rate (%)']/100
+    
+    df['Effective Annual Variable Rate (%)'] =  (1+df['Variable Rate (%)']/2)**2-1
+        
+    df['Effective Annual Fixed Rate (%)'] = (1+df['Fixed Rate (%)']/2)**2-1
+    
+    df['Effective Monthly Variable Rate (%)'] =  (1+df['Effective Annual Variable Rate (%)'])**(1/12)-1
+        
+    df['Effective Monthly Fixed Rate (%)'] = (1+df['Effective Annual Fixed Rate (%)'])**(1/12)-1
+    
+    df['Monthly Payment - Variable']  = (df['Effective Monthly Variable Rate (%)'][0] * P)/(1-(1+df['Effective Monthly Variable Rate (%)'][0])**(-a)) 
+    
+    df['Monthly Payment - Fixed']  = (df['Effective Monthly Fixed Rate (%)'][0] * P)/(1-(1+df['Effective Monthly Fixed Rate (%)'][0])**(-a)) 
+    
+    df['Opening Balance - Variable'] = np.nan
+    df['Opening Balance - Variable'][0] = P
+    df['Closing Balance - Variable'] = np.nan
+    
+    
+    df['Opening Balance - Fixed'] = np.nan
+    df['Opening Balance - Fixed'][0] = P
+    df['Closing Balance - Fixed'] = np.nan
+    
+    
+    df['Monthly Interest - Variable']  = df['Effective Monthly Variable Rate (%)'] * df['Opening Balance - Variable']
+    df['Monthly Interest - Fixed'] = df['Effective Monthly Fixed Rate (%)'] * df['Opening Balance - Fixed']
+    
+    df['Monthly Principal - Variable']  = df['Monthly Payment - Variable'] - df['Monthly Interest - Variable']
+    df['Monthly Principal - Fixed'] = df['Monthly Payment - Fixed'] - df['Monthly Interest - Fixed']
+    
+    df['Closing Balance - Variable'] = df['Opening Balance - Variable'] - df['Monthly Principal - Variable']
+    df['Closing Balance - Fixed'] = df['Opening Balance - Fixed'] - df['Monthly Principal - Fixed']
+    
+    
+    current_balance_variable = df['Closing Balance - Variable'][0]
+    current_balance_fixed = df['Closing Balance - Fixed'][0]
+    
+    for t in range(1,max(df['Month'])):
+        
+        df.iloc[t,9] = current_balance_variable # opening balance variable
+        df.iloc[t,11] = current_balance_fixed # opening balance fixed
+        df.iloc[t,13] = df.iloc[t,9] * df.iloc[t,5] # interest variable
+        df.iloc[t,14] = df.iloc[t,11] * df.iloc[t,6] # interest fixed
+        df.iloc[t,15] = df.iloc[t,7] - df.iloc[t,13] # principal variable
+        df.iloc[t,16] = df.iloc[t,8] - df.iloc[t,14] # principal fixed
+        current_balance_variable = df.iloc[t,9] - df.iloc[t,15]
+        current_balance_fixed = df.iloc[t,11] - df.iloc[t,16]
+        df.iloc[t,10] = current_balance_variable # closing balance variable
+        df.iloc[t,12] = current_balance_fixed # closing balance fixed
+    
+    
+
+    df['Cumulative Interst - Variable'] = df['Monthly Interest - Variable'].cumsum()
+    df['Cumulative Interst - Fixed'] = df['Monthly Interest - Fixed'].cumsum()
+    
+    return df
+
+
 #%%
 #==============================================================================
 # Tab 1 Commission
@@ -236,14 +299,14 @@ def tab3():
 
 #%%
 #==============================================================================
-# Tab 3 Fixed Vs. Varible
+# Tab 4 Fixed Vs. Varible
 #==============================================================================
 
 def tab4():
     st.markdown('''
-    :red[Be very careful for interest rate hikes as this program assumes trigger rate is never hit.]''')
+    :red[Be very careful for interest rate hikes as this program assumes no monthly payment adjustment (i.e, hitting trigger rate results in negative amortization]''')
     
-    st.write("Use the sample input file as template. Add rows as needed, but do not change columns.")
+    st.write("Use the sample input file as template. Add as many rows as needed, but do not change columns.")
     
     text_contents = '''Month,Variable Rate (%),Fixed Rate (%)
                         1,5,4
@@ -265,94 +328,17 @@ def tab4():
     custom_rate = pd.read_csv(rates)
 
 
-    row_min = 1
-    row_max = len(custom_rate)
+    df = fixed_variable_rate(custom_rate,P,a)
     
-    P = st.number_input("Enter Loan Amount")
-    N = st.number_input("Enter Amortization Period in Month")
-    gic_rate = st.number_input("Enter Discount Rate (%) for Present Value Analysis (Optional)")/100
-
-    # Variable Rate Analysis
-    
-    
-    r = custom_rate.iloc[0,1]/100
-    
-    c = payment_calculator(r,P,N)
-    
-    custom_rate['monthly_payment_variable'] = c
-    
-    custom_rate['interest_variable'] = np.nan
-    custom_rate['unpaid_balance_variable'] = np.nan
-    
-    
-    
-    custom_rate.iloc[0,4] = P * r / 12
-    custom_rate.iloc[0,5] = P - c + custom_rate.iloc[0,4]
-    
-    
-    
-    
-    for row in range(row_min, row_max):
-        last_row = row - 1
-        custom_rate.iloc[row,4] = custom_rate.iloc[last_row,5] * custom_rate.iloc[row,1] / 100 / 12
-        custom_rate.iloc[row,5] = custom_rate.iloc[last_row,5] - custom_rate.iloc[row,3] + custom_rate.iloc[row,4]
-        
-    
-       
-    # Fixed Rate Analysis
-    
-    
-    
-    
-    r = custom_rate.iloc[0,2]/100
-    
-    c = payment_calculator(r,P,N)
-    
-    custom_rate['monthly_payment_fixed'] = c
-    
-    custom_rate['interest_fixed'] = np.nan
-    custom_rate['unpaid_balance_fixed'] = np.nan
-    
-    custom_rate.iloc[0,7] = P * r / 12
-    custom_rate.iloc[0,8] = P - c + custom_rate.iloc[0,7]
-    
-    
-    
-    
-    
-    
-    for row in range(row_min, row_max):
-        last_row = row - 1
-        custom_rate.iloc[row,7] = custom_rate.iloc[last_row,8] * custom_rate.iloc[row,2] / 100 / 12
-        custom_rate.iloc[row,8] = custom_rate.iloc[last_row,8] - custom_rate.iloc[row,6] + custom_rate.iloc[row,7]
-        
-    
-    custom_rate['cumulative_interests_variable'] = custom_rate['interest_variable'].cumsum()
-    custom_rate['cumulative_interests_fixed'] = custom_rate['interest_fixed'].cumsum()
-    
-
-    custom_rate['interest_variable_pv'] = custom_rate['interest_variable']/((1+gic_rate/12)**custom_rate['Month'])
-    custom_rate['interest_fixed_pv'] = custom_rate['interest_fixed']/((1+gic_rate/12)**custom_rate['Month'])
-    
-    
-    custom_rate['cumulative_interests_variable_pv'] = custom_rate['interest_variable_pv'].cumsum()
-    custom_rate['cumulative_interests_fixed_pv'] = custom_rate['interest_fixed_pv'].cumsum()
-    
-    fig_interest = px.line(custom_rate,
-            x=custom_rate.Month,
-            y=custom_rate.columns[[9,10]]
+    fig_interest = px.line(df,
+            x=df['Month],
+            y=['Cumulative Interst - Variable']
             )
     
     st.title('Cumulative Interests') 
     st.plotly_chart(fig_interest)
     
-    fig_interest_pv = px.line(custom_rate,
-            x=custom_rate.Month,
-            y=custom_rate.columns[[13,14]]
-            )
-    
-    st.title('Cumulative Interests: PV') 
-    st.plotly_chart(fig_interest_pv)
+
     
     
     
@@ -366,7 +352,7 @@ def tab4():
 
 #%%
 #==============================================================================
-# Tab 3 Bond
+# Tab 5 Bonds
 #==============================================================================
 
 def tab5():
