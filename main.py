@@ -327,22 +327,24 @@ def tab4():
     
     st.download_button('Download Sample Input File', text_contents, 'Sample_input.csv')
 
-    rates = pd.read_csv(rates.csv)
+
     
     rates = st.file_uploader("Upload Custom Rates")
     custom_rate = pd.read_csv(rates)
 
+    if rates is not None:
 
-    df = fixed_variable_rate(custom_rate,P,a)
-    
-    fig_interest = px.line(df,
-            x=df['Month'],
-            y=['Cumulative Interest - Variable', 'Cumulative Interest - Fixed']
-            )
-    
-    st.title('Cumulative Interests') 
-    st.plotly_chart(fig_interest)
-    
+
+        df = fixed_variable_rate(custom_rate,P,a)
+        
+        fig_interest = px.line(df,
+                x=df['Month'],
+                y=['Cumulative Interest - Variable', 'Cumulative Interest - Fixed']
+                )
+        
+        st.title('Cumulative Interests') 
+        st.plotly_chart(fig_interest)
+        
 
     
     
