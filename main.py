@@ -93,6 +93,54 @@ def amortization(r,P,a,f = 'Monthly'):
     
     return schedule, actual_amortization, n
 
+def interest_rate(r,f = 'Monthly'):
+    
+    # r is the nominal annual interest rate
+    # f is the payment frequency
+    
+
+    r = r/100
+
+    r_e = (1+r/2)**2-1 
+    
+    r_m = (1+r_e)**(1/12)-1 
+
+      
+    if f == 'Monthly':
+        n = 12
+        r_m = (1+r_e)**(1/n)-1  
+     
+
+        
+    elif f == 'Semi-Monthly':
+        n = 24
+        r_m = (1+r_e)**(1/n)-1  
+
+
+        
+
+    elif f == 'Bi-Weekly':
+        n = 26
+        r_m = (1+r_e)**(14/365.25)-1  
+
+        
+    elif f == 'Weekly':
+        n = 52
+        r_m = (1+r_e)**(7/365.25)-1  
+
+        
+    elif f == 'Accelerated Bi-Weekly':
+        n = 26
+        r_m = (1+r_e)**(14/365.25)-1  
+
+        
+    elif f == 'Accelerated Weekly':
+        n = 52
+        r_m = (1+r_e)**(7/365.25)-1  
+
+    
+    return r_e, r_m
+
 #%%
 #==============================================================================
 # Tab 1 Commission
@@ -174,28 +222,16 @@ def tab2():
 
 def tab3():
 
-  r = st.number_input("Enter Annual Nominal Interest Rate in %")
-    
-  r_e = round(100*((1+r/2)**2-1),2)
-    
-  r_m = round(100*(1+r_e)**(1/12)-1,2)
+  r = st.number_input("Enter Annual Nominal Interest Rate in %", value = 4)
+  f = st.selectbox("Select Payment Frequency",
+                  ('Monthly', 'Semi-Monthly', 'Bi-Weekly', 'Weekly', 'Accelerated Bi-Weekly', 'Accelerated Weekly'),)
+             
+  
 
-  st.markdown("Annual Effective Rate is {r_e}%".format(c))
+  r_e,r_m = interest_rate(r,f)
 
-  st.markdown("Monthly Effective Rate is {r_m}".format(c))
-
-
-  c = round(payment_calculator(r,P,N,f),2)
-
-  st.title("To Calculate Cumulative Interests")
-
-  T = st.number_input("Enter Interest Period in Month")
-
-  i = round(interest_calculator(c, r, P, T),2)
-
-  st.markdown("Monthly Payment is {}".format(c))
-
-  st.markdown("Cumulative Interests for {} Months Are {}".format(T, i))
+  st.markdown("Effective Annual Rate: {} %".format(round(100*r_e,2)))
+  st.markdown("Effective Periodic Rate: {} %".format(round(100*r_m,2)))
 
 
 #%%
@@ -368,17 +404,19 @@ def run():
     
     
     # Add a radio box
-    select_tab = st.sidebar.radio("Select tab", ['Commission', 'Mortgage Payment Calculator', 'Variable Vs. Fixed Mortage', 'T-bill Yields (Canada)'])
+    select_tab = st.sidebar.radio("Select tab", ['Commission', 'Mortgage Payment Calculator', 'Interest Rates', 'Variable Vs. Fixed Mortage', 'T-bill Yields (Canada)'])
 
     # Show the selected tab
     if select_tab == 'Commission':
         tab1()
     elif select_tab == 'Mortgage Payment Calculator':
         tab2()
+    elif select_tab == 'Interest Rates':
+        tab3()    
     elif select_tab == 'Variable Vs. Fixed Mortage':
-        tab3()        
+        tab4()        
     elif select_tab == 'T-bill Yields (Canada)':
-        tab4()    
+        tab5()    
    
         
 if __name__ == "__main__":
