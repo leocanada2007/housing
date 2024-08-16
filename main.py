@@ -326,6 +326,8 @@ def tab4():
                         12,3.5,4'''
     
     st.download_button('Download Sample Input File', text_contents, 'Sample_input.csv')
+
+    rates = pr.read_csv(rates.csv)
     
     rates = st.file_uploader("Upload Custom Rates")
     custom_rate = pd.read_csv(rates)
