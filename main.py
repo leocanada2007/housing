@@ -263,7 +263,7 @@ def tab_mortgage():
   
   P = st.number_input("Enter Loan Amount", value = 200000)
   r = st.number_input("Enter Annual Nominal Interest Rate in %", value = 6.95)
-  a = st.number_input("Enter Amortization Period in Month", value = 360)
+  a = st.number_input("Enter Nominal Amortization Period in Month", value = 360)
   t = st.number_input("Enter Term Period in Month", value = 36)  
   f = st.selectbox("Select Payment Frequency",
                   ('Monthly', 'Semi-Monthly', 'Bi-Weekly', 'Weekly', 'Accelerated Bi-Weekly', 'Accelerated Weekly'),)
