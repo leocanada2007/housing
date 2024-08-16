@@ -422,7 +422,7 @@ def run():
     if select_tab == 'Commission':
         tab_commission()
     elif select_tab == 'Mortgage Payment Calculator':
-        tab2_mortgage()
+        tab_mortgage()
     elif select_tab == 'Interest Rates':
         tab_interest()    
     elif select_tab == 'Variable Vs. Fixed Mortage':
