@@ -415,7 +415,7 @@ def tab_tax():
     elif (price > 2000000):
         tax = 38000 + (price - 2000000)*0.03
 
-    st.markdown("The property transfer tax is {} dolars".format(round(tax,2))
+    st.markdown("The property transfer tax is {} dolars".format(round(tax,2)))
  
 
     
@@ -436,7 +436,7 @@ def run():
     # Show the selected tab
     if select_tab == 'Commission':
         tab_commission()
-    elif select_tab == 'Transfer Tax':
+    elif select_tab == 'Property Transfer Tax':
         tab_tax()    
     elif select_tab == 'Mortgage Payment Calculator':
         tab_mortgage()
