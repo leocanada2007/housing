@@ -212,7 +212,7 @@ def fixed_variable_rate(df,P,a):
 def tab1():
   price = st.number_input("Enter Purchase Price", value = 1000000)
  
-  if price<=200000:
+  if price<=100000:
         total_commission = round(price * 0.07, 2)
 
         total_commission_percentage = round((total_commission/price)*100, 2)
