@@ -209,7 +209,7 @@ def fixed_variable_rate(df,P,a):
 # Tab 1 Commission
 #==============================================================================
 
-def tab1():
+def tab_commission():
   price = st.number_input("Enter Purchase Price", value = 1000000)
  
   if price<=100000:
@@ -258,7 +258,7 @@ def tab1():
 # Tab 2 Mortgage 
 #==============================================================================
 
-def tab2():
+def tab_mortgage():
 
   
   P = st.number_input("Enter Loan Amount", value = 200000)
@@ -302,7 +302,7 @@ def tab2():
 # Tab 3 Interest Analysis
 #==============================================================================
 
-def tab3():
+def tab_interest():
 
   r = st.number_input("Enter Annual Nominal Interest Rate in %", value = 6.95)
   f = st.selectbox("Select Payment Frequency",
@@ -321,7 +321,7 @@ def tab3():
 # Tab 4 Fixed Vs. Varible
 #==============================================================================
 
-def tab4():
+def tab_fix_var():
     st.markdown('''
     :red[Be very careful for interest rate hikes as this program assumes no monthly payment adjustment (i.e, hitting trigger rate results in negative amortization)]''')
     
@@ -381,7 +381,7 @@ def tab4():
 # Tab 5 Bonds
 #==============================================================================
 
-def tab5():
+def tab_tbill():
     
     url = "https://www.bankofcanada.ca/valet/observations/group/bond_yields_all/csv"
 
@@ -420,15 +420,15 @@ def run():
 
     # Show the selected tab
     if select_tab == 'Commission':
-        tab1()
+        tab_commission()
     elif select_tab == 'Mortgage Payment Calculator':
-        tab2()
+        tab2_mortgage()
     elif select_tab == 'Interest Rates':
-        tab3()    
+        tab_interest()    
     elif select_tab == 'Variable Vs. Fixed Mortage':
-        tab4()        
+        tab_fix_var()        
     elif select_tab == 'T-bill Yields (Canada)':
-        tab5()    
+        tab_tbill()    
    
         
 if __name__ == "__main__":
