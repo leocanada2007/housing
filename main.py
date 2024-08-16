@@ -147,9 +147,9 @@ def tab2():
   n = math.ceil(n*36/12)
   df_t = df.head(n)
 
-  st.markdown("Periodic Payment: {} ".format(df.iloc[0,2]))
-  st.markdown("Cumulative Interest Over Term: {} ".format(df_t['Interest Payment'].sum()))  
-  st.markdown("Cumulative Principal Over Term: {} ".format(df_t['Principal Payment'].sum()))  
+  st.markdown("Periodic Payment: {} ".format(round(df.iloc[0,2],2)))
+  st.markdown("Cumulative Interest Over Term: {} ".format(round(df_t['Interest Payment'].sum(),2)))  
+  st.markdown("Cumulative Principal Over Term: {} ".format(round(df_t['Principal Payment'].sum(),2)))  
     
   
   st.title("Amortization Summary")
