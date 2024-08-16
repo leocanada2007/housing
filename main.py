@@ -120,8 +120,8 @@ def tab1():
 def tab2():
 
   
-  P = st.number_input("Enter Loan Amount")
-  r = st.number_input("Enter Annual Nominal Interest Rate in %")
+  P = st.number_input("Enter Loan Amount", value = 200000)
+  r = st.number_input("Enter Annual Nominal Interest Rate in %", value = 4)
   a = st.number_input("Enter Amortization Period in Month", value = 360)
   t = st.number_input("Enter Mortgage Term in Month", value = 36)
 
