@@ -330,11 +330,11 @@ def tab4():
 
     
     rates = st.file_uploader("Upload Custom Rates")
-    custom_rate = pd.read_csv(rates)
+    
 
     if rates is not None:
 
-
+        custom_rate = pd.read_csv(rates)
         df = fixed_variable_rate(custom_rate,P,a)
         
         fig_interest = px.line(df,
