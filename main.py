@@ -126,7 +126,7 @@ def tab2():
   t = st.number_input("Enter Mortgage Term in Month")
 
 
-  df = round(payment_calculator(r,P,a,t),2)
+  df = round(amortization(r,P,a,t),2)
 
   st.markdown("Monthly Payment is {}".format(df.iloc[0,2]))
 
