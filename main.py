@@ -99,7 +99,7 @@ def amortization(r,P,a,f = 'Monthly'):
 #==============================================================================
 
 def tab1():
-  price = st.number_input("Enter Purchase Price")
+  price = st.number_input("Enter Purchase Price", value = 1000000)
 
   total_commission = round(7000 + (price-100000)*0.02, 2)
 
