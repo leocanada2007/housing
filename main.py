@@ -139,7 +139,7 @@ def tab2():
   
   st.title("Amortization Summary")
   
-  st.markdown("Actual Amortization Period: {} Years".format(a)
+  st.markdown("Actual Amortization Period: {} Years".format(a))
 
   st.dataframe(df)
 
