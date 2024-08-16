@@ -210,7 +210,7 @@ def fixed_variable_rate(df,P,a):
 #==============================================================================
 
 def tab_commission():
-  price = st.number_input("Enter Purchase Price", value = 1000000)
+  price = st.number_input("Enter Purchase/Sale Price", value = 1000000)
  
   if price<=100000:
         total_commission = round(price * 0.07, 2)
@@ -399,8 +399,23 @@ def tab_tbill():
     st.plotly_chart(fig_3m)
 
       
+#%%
+#==============================================================================
+# Tab 5 Transfer Tax
+#==============================================================================
 
-  
+def tab_tax():
+    
+    price = st.number_input("Enter Purchase/Sale Price", value = 1000000)
+
+    if price <= 200000:
+        tax = price * 0.01
+    elif (price > 200000) & (price <= 2000000):
+        tax = 2000 + (price - 200000)*0.02
+    elif (price > 2000000):
+        tax = 38000 + (price - 2000000)*0.03
+
+    st.markdown("The property transfer tax is {} dolars".format(round(tax,2))
  
 
     
@@ -416,11 +431,13 @@ def run():
     
     
     # Add a radio box
-    select_tab = st.sidebar.radio("Select tab", ['Commission', 'Mortgage Payment Calculator', 'Interest Rates', 'Variable Vs. Fixed Mortage', 'T-bill Yields (Canada)'])
+    select_tab = st.sidebar.radio("Select tab", ['Commission', 'Property Transfer Tax', 'Mortgage Payment Calculator', 'Interest Rates', 'Variable Vs. Fixed Mortage', 'T-bill Yields (Canada)'])
 
     # Show the selected tab
     if select_tab == 'Commission':
         tab_commission()
+    elif select_tab == 'Transfer Tax':
+        tab_tax()    
     elif select_tab == 'Mortgage Payment Calculator':
         tab_mortgage()
     elif select_tab == 'Interest Rates':
