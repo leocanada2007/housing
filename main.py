@@ -428,12 +428,12 @@ def tab_prepay():
     type = st.selectbox("Select Mortgage Type",
                        ('Variable', 'Fixed'),)
 
-    if type = 'Variable':
+    if type == 'Variable':
         amount = st.number_input("Enter Prepayment Amount", value = 60000)
         current_prime = st.number_input("Enter Current Prime Rate in %", value = 5)
         penalty = amount*current_prime/100/4
 
-    elif type = 'Fixed':
+    elif type == 'Fixed':
         amount = st.number_input("Enter Prepayment Amount", value = 100000)
         fixed_rate = st.number_input("Enter Fixed Mortgage Rate in %", value = 6.5)
         discount = st.number_input("Enter Discount Received in %", value = 0.5)
