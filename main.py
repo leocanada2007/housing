@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 import plotly.express as px
 
-def amortization(r,P,a,t):
+def amortization(r,P,a,f = 'Monthly'):
     
     # r is the nominal annual interest rate
     # P is the principal
@@ -16,47 +16,47 @@ def amortization(r,P,a,t):
 
     r = r/100
 
-    r_e = (1+r/2)**2-1
+    r_e = (1+r/2)**2-1 
     
-    r_m = (1+r_e)**(1/12)-1  
-    
+    r_m = (1+r_e)**(1/12)-1 
+
     c = (r_m * P)/(1-(1+r_m)**(-a)) 
       
-# =============================================================================
-#     if f == 'Monthly':
-#         n = 12
-#         r_m = (1+r_e)**(1/n)-1  
-#         c = c
-#         
-#     elif f == 'Semi-Monthly':
-#         n = 24
-#         r_m = (1+r_e)**(1/n)-1  
-#         c = c/2
-#         t = t*2
-# 
-#     elif f == 'Bi-Weekly':
-#         n = 26
-#         r_m = (1+r_e)**(1/n)-1  
-#         c = c*12/26
-#         t = 781
-#         
-#     elif f == 'Weekly':
-#         n = 52
-#         r_m = (1+r_e)**(1/n)-1  
-#         c = c*12/52
-#         t = 156
-#         
-#     elif f == 'Accelerated Bi-Weekly':
-#         n = 26
-#         r_m = (1+r_e)**(1/n)-1  
-#         c = c/2 
-#         t = 78
-#         
-#     elif f == 'Accelerated Weekly':
-#         n = 52
-#         r_m = (1+r_e)**(1/n)-1  
-#         c = c/4    
-# =============================================================================
+    if f == 'Monthly':
+        n = 12
+        r_m = (1+r_e)**(1/n)-1  
+        c = c
+        
+    elif f == 'Semi-Monthly':
+        n = 24
+        r_m = (1+r_e)**(1/n)-1  
+        c = c/2
+        t = a*2
+        
+
+    elif f == 'Bi-Weekly':
+        n = 26
+        r_m = (1+r_e)**(14/365.25)-1  
+        c = c*12/26
+        t = math.ceil(n*a/12)
+        
+    elif f == 'Weekly':
+        n = 52
+        r_m = (1+r_e)**(7/365.25)-1  
+        c = c*12/52
+        t = math.ceil(n*a/12)
+        
+    elif f == 'Accelerated Bi-Weekly':
+        n = 26
+        r_m = (1+r_e)**(14/365.25)-1  
+        c = c/2 
+        t = math.ceil(n*a/12)
+        
+    elif f == 'Accelerated Weekly':
+        n = 52
+        r_m = (1+r_e)**(7/365.25)-1  
+        c = c/4  
+        t = math.ceil(n*a/12)
    
     schedule = pd.DataFrame(columns=['Period', 'Opening Balance', 'Payment', 'Interest Payment', 'Principal Payment', 'Closing Balance'])
     
@@ -68,6 +68,8 @@ def amortization(r,P,a,t):
         opening_balance = balance
         payment = c
         interest = opening_balance * r_m
+        if payment > opening_balance:
+            payment = opening_balance + interest
         principal = payment - interest
         balance = balance - principal
         closing_balance = balance
@@ -78,9 +80,14 @@ def amortization(r,P,a,t):
         
         schedule.loc[len(schedule)] = row
             
+        if closing_balance == 0:
+            break
+
+
+    actual_amortization = round(len(schedule)/n,2)
 
     
-    return schedule
+    return schedule, actual_amortization
 
 #%%
 #==============================================================================
@@ -123,12 +130,16 @@ def tab2():
   P = st.number_input("Enter Loan Amount", value = 200000)
   r = st.number_input("Enter Annual Nominal Interest Rate in %", value = 4)
   a = st.number_input("Enter Amortization Period in Month", value = 360)
-  t = st.number_input("Enter Mortgage Term in Month", value = 36)
+  f = st.selectbox("Select Payment Frequency",
+                  ('Monthly', ''Semi-Monthly', 'Bi-Weekly', 'Weekly', 'Accelerated Bi-Weekly', 'Accelerated Weekly'),)
+             
+  
 
-
-  df = round(amortization(r,P,a,t),2)
-
-  st.markdown("Monthly Payment is {}".format(df.iloc[0,2]))
+  df,a = amortization(r,P,a,f)
+  
+  st.title("Amortization Summary")
+  
+  st.markdown("Actual Amortization Period: {} Years".format(a)
 
   st.dataframe(df)
 
