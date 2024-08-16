@@ -26,6 +26,7 @@ def amortization(r,P,a,f = 'Monthly'):
         n = 12
         r_m = (1+r_e)**(1/n)-1  
         c = c
+        t = a
         
     elif f == 'Semi-Monthly':
         n = 24
