@@ -27,12 +27,14 @@ def amortization(r,P,a,f = 'Monthly'):
         r_m = (1+r_e)**(1/n)-1  
         c = c
         t = a
+
         
     elif f == 'Semi-Monthly':
         n = 24
         r_m = (1+r_e)**(1/n)-1  
         c = c/2
         t = a*2
+
         
 
     elif f == 'Bi-Weekly':
@@ -88,7 +90,7 @@ def amortization(r,P,a,f = 'Monthly'):
     actual_amortization = round(len(schedule)/n,2)
 
     
-    return schedule, actual_amortization
+    return schedule, actual_amortization, n
 
 #%%
 #==============================================================================
@@ -131,16 +133,27 @@ def tab2():
   P = st.number_input("Enter Loan Amount", value = 200000)
   r = st.number_input("Enter Annual Nominal Interest Rate in %", value = 4)
   a = st.number_input("Enter Amortization Period in Month", value = 360)
+  t = st.number_input("Enter Term Period in Month", value = 36)  
   f = st.selectbox("Select Payment Frequency",
                   ('Monthly', 'Semi-Monthly', 'Bi-Weekly', 'Weekly', 'Accelerated Bi-Weekly', 'Accelerated Weekly'),)
              
   
 
-  df,a = amortization(r,P,a,f)
+  df,a,n = amortization(r,P,a,f)
+
+  st.title("Term Summary")
+
+  n = math.ceil(n*36/12)
+  df_t = df.head(n)
+
+  st.markdown("Periodic Payment: {} ".format(df.iloc[0,2]))
+  st.markdown("Cumulative Interest Over Term: {} ".format(df_t['Interest Payment'].sum()))  
+  st.markdown("Cumulative Principal Over Term: {} ".format(df_t['Principal Payment'].sum()))  
+    
   
   st.title("Amortization Summary")
   
-  st.markdown("Actual Amortization Period: {} Years".format(a))
+  st.markdown("Actual Amortization: {} Years".format(a))
 
   st.dataframe(df)
 
