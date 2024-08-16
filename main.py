@@ -5,50 +5,82 @@ import numpy as np
 import pandas as pd
 import plotly.express as px
 
-def payment_calculator(r,P,N,f = 'Monthly'):
+def amortization(r,P,a,t):
     
     # r is the nominal annual interest rate
     # P is the principal
-    # N is the loan's term
+    # a is amortization in month
+    # t is the mortgage term in month
     # f is the payment frequency
+    
 
     r = r/100
 
     r_e = (1+r/2)**2-1
     
-    r_m = (1+r_e)**(1/12)-1
-
+    r_m = (1+r_e)**(1/12)-1  
     
+    c = (r_m * P)/(1-(1+r_m)**(-a)) 
+      
+# =============================================================================
+#     if f == 'Monthly':
+#         n = 12
+#         r_m = (1+r_e)**(1/n)-1  
+#         c = c
+#         
+#     elif f == 'Semi-Monthly':
+#         n = 24
+#         r_m = (1+r_e)**(1/n)-1  
+#         c = c/2
+#         t = t*2
+# 
+#     elif f == 'Bi-Weekly':
+#         n = 26
+#         r_m = (1+r_e)**(1/n)-1  
+#         c = c*12/26
+#         t = 781
+#         
+#     elif f == 'Weekly':
+#         n = 52
+#         r_m = (1+r_e)**(1/n)-1  
+#         c = c*12/52
+#         t = 156
+#         
+#     elif f == 'Accelerated Bi-Weekly':
+#         n = 26
+#         r_m = (1+r_e)**(1/n)-1  
+#         c = c/2 
+#         t = 78
+#         
+#     elif f == 'Accelerated Weekly':
+#         n = 52
+#         r_m = (1+r_e)**(1/n)-1  
+#         c = c/4    
+# =============================================================================
+   
+    schedule = pd.DataFrame(columns=['Period', 'Opening Balance', 'Payment', 'Interest Payment', 'Principal Payment', 'Closing Balance'])
     
-    c = (r_m * P)/(1-(1+r_m)**(-N))
-
+    balance = P
     
-    if f == 'Semi-monthly':
-        c = c/2
-
-    elif f == 'Bi-weekly':
-        c = c*12/26
+    for x in range(0,t):
         
-    elif f == 'Weekly':
-        c = c*12/52
-    
-    return c
+        period = x
+        opening_balance = balance
+        payment = c
+        interest = opening_balance * r_m
+        principal = payment - interest
+        balance = balance - principal
+        closing_balance = balance
+        
 
+        
+        row = [period, opening_balance, payment, interest, principal, closing_balance]
+        
+        schedule.loc[len(schedule)] = row
+            
 
-def interest_calculator(c,r,P,N):
     
-    # c is the monthly payment from payment calculator
-    # r is the annual interest rate
-    # P is the principal
-    # N month for interest calculation. Note this is different from the N in payment calculator 
-
-    r = r/100
-    
-    r_m = r/12
-    
-    i = (P*r_m-c)*((1+r_m)**N-1)/r_m + c*N
-    
-    return i
+    return schedule
 
 #%%
 #==============================================================================
@@ -82,17 +114,42 @@ def tab1():
 
 #%%
 #==============================================================================
-# Tab 2 Mortgage Payment
+# Tab 2 Mortgage 
 #==============================================================================
 
 def tab2():
 
   
   P = st.number_input("Enter Loan Amount")
-  r = st.number_input("Enter Nominal Interest Rate in %")
-  N = st.number_input("Enter Amortization Period in Month")
-  f = st.selectbox("Select Payment Frequency",
-    ("Monthly", "Semi-monthly", "Bi-weekly", "Weekly"),)
+  r = st.number_input("Enter Annual Nominal Interest Rate in %")
+  a = st.number_input("Enter Amortization Period in Month")
+  t = st.number_input("Enter Mortgage Term in Month")
+
+
+  df = round(payment_calculator(r,P,a,t),2)
+
+  st.markdown("Monthly Payment is {}".format(df.iloc[0,2]))
+
+  st.dataframe(df)
+
+
+#%%
+#==============================================================================
+# Tab 3 Interest Analysis
+#==============================================================================
+
+def tab3():
+
+  r = st.number_input("Enter Annual Nominal Interest Rate in %")
+    
+  r_e = round(100*((1+r/2)**2-1),2)
+    
+  r_m = round(100*(1+r_e)**(1/12)-1,2)
+
+  st.markdown("Annual Effective Rate is {r_e}%".format(c))
+
+  st.markdown("Monthly Effective Rate is {r_m}".format(c))
+
 
   c = round(payment_calculator(r,P,N,f),2)
 
@@ -107,15 +164,12 @@ def tab2():
   st.markdown("Cumulative Interests for {} Months Are {}".format(T, i))
 
 
-
-
-
 #%%
 #==============================================================================
 # Tab 3 Fixed Vs. Varible
 #==============================================================================
 
-def tab3():
+def tab4():
     st.markdown('''
     :red[Be very careful for interest rate hikes as this program assumes trigger rate is never hit.]''')
     
@@ -245,7 +299,7 @@ def tab3():
 # Tab 3 Bond
 #==============================================================================
 
-def tab4():
+def tab5():
     
     url = "https://www.bankofcanada.ca/valet/observations/group/bond_yields_all/csv"
 
