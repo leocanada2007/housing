@@ -122,8 +122,8 @@ def tab2():
   
   P = st.number_input("Enter Loan Amount")
   r = st.number_input("Enter Annual Nominal Interest Rate in %")
-  a = st.number_input("Enter Amortization Period in Month")
-  t = st.number_input("Enter Mortgage Term in Month")
+  a = st.number_input("Enter Amortization Period in Month", value = 360)
+  t = st.number_input("Enter Mortgage Term in Month", value = 36)
 
 
   df = amortization(r,P,a,t)
