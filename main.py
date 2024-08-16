@@ -198,8 +198,8 @@ def fixed_variable_rate(df,P,a):
     
     
 
-    df['Cumulative Interst - Variable'] = df['Monthly Interest - Variable'].cumsum()
-    df['Cumulative Interst - Fixed'] = df['Monthly Interest - Fixed'].cumsum()
+    df['Cumulative Interest - Variable'] = df['Monthly Interest - Variable'].cumsum()
+    df['Cumulative Interest - Fixed'] = df['Monthly Interest - Fixed'].cumsum()
     
     return df
 
@@ -331,8 +331,8 @@ def tab4():
     df = fixed_variable_rate(custom_rate,P,a)
     
     fig_interest = px.line(df,
-            x=df['Month],
-            y=['Cumulative Interst - Variable']
+            x=df['Month'],
+            y=['Cumulative Interest - Variable', 'Cumulative Interest - Fixed']
             )
     
     st.title('Cumulative Interests') 
