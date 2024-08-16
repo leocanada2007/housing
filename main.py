@@ -132,6 +132,14 @@ def tab2():
 
   st.dataframe(df)
 
+  fig = px.bar(df,
+        x=df.Period,
+        y=['Interest Payment', 'Principal Payment'],
+        title = 'Monthly Payment Decomposition'
+        )    
+
+  st.plotly_chart(fig)
+
 
 #%%
 #==============================================================================
