@@ -211,18 +211,37 @@ def fixed_variable_rate(df,P,a):
 
 def tab1():
   price = st.number_input("Enter Purchase Price", value = 1000000)
+ 
+  if price<=200000:
+        total_commission = round(price * 0.07, 2)
 
-  total_commission = round(7000 + (price-100000)*0.02, 2)
+        total_commission_percentage = round((total_commission/price)*100, 2)
 
-  total_commission_percentage = round((total_commission/price)*100, 3)
+        buy_commission = round(price*0.0322, 2)
 
-  buy_commission = round(3220+0.0115*(price-100000), 2)
+        buy_commission_percentage = round((buy_commission / price)*100, 2)
 
-  buy_commission_percentage = round((buy_commission / price)*100, 3)
-
-  listing_commission = round(3780 + 0.0135*(price-100000),2)
+        listing_commission = round(price*0.0378, 2)
   
-  listing_commission_percentage = round((listing_commission / price)*100, 3)
+        listing_commission_percentage = round((listing_commission / price)*100, 2)
+
+  else:
+      total_commission = round(7000 + (price-100000)*0.02, 2)
+
+      total_commission_percentage = round((total_commission/price)*100, 2)
+
+      buy_commission = round(3220+0.0115*(price-100000), 2)
+
+      buy_commission_percentage = round((buy_commission / price)*100, 3)
+
+      listing_commission = round(3780 + 0.0135*(price-100000),2)
+  
+      listing_commission_percentage = round((listing_commission / price)*100, 2)
+      
+      
+
+
+  
 
   st.write("Total Commission: {}, or {}% of purchase price".format(total_commission, total_commission_percentage))
 
