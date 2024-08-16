@@ -418,7 +418,51 @@ def tab_tax():
     st.markdown("The property transfer tax is {} dolars".format(round(tax,2)))
  
 
+#%%
+#==============================================================================
+# Tab 6 Prepayment
+#==============================================================================
+
+def tab_prepay():
     
+    type = st.selectbox("Select Mortgage Type",
+                       ('Variable', 'Fixed'),)
+
+    if type = 'Variable':
+        amount = st.number_input("Enter Prepayment Amount", value = 60000)
+        current_prime = st.number_input("Enter Current Prime Rate in %", value = 5)
+        penalty = amount*current_prime/100/4
+
+    elif type = 'Fixed':
+        amount = st.number_input("Enter Prepayment Amount", value = 100000)
+        fixed_rate = st.number_input("Enter Fixed Mortgage Rate in %", value = 6.5)
+        discount = st.number_input("Enter Discount Received in %", value = 0.5)
+        monthly_payment = st.number_input("Enter Monthly Payment", value = 693.47)
+        remaining_term_in_month = st.number_input("Enter Remaining Term in Month", value = 24)
+        comparison_rate = st.number_input("Enter Posted Comparison Mortgage Rate in %", value = 5)
+        
+        
+        no_discount_rate = (fixed_rate+discount)/100
+        three_month_interest = amount * (no_discount_rate)/100/4
+
+        
+        r_e1 = (1+no_discount_rate/2)**2-1 
+        r_m1 = (1+r_e1)**(1/12)-1 
+        existing_interest = (upb*r_m1-monthly_payment)*((1+r_m1)**remaining_term_in_month-1)/r_m1 + monthly_payment*remaining_term_in_month
+
+        comparison_rate = comparison_rate/100
+        r_e2 = (1+comparison_rate/2)**2-1 
+        r_m2 = (1+r_e2)**(1/12)-1 
+        comparison_interest = (upb*r_m-monthly_payment)*((1+r_m2)**remaining_term_in_month-1)/r_m2 + monthly_payment*remaining_term_in_month
+
+        interest_differential = existing_interest - comparison_interest
+
+        penalty = max(three_month_interest, interest_differential)
+
+        st.markdown("Prepayment Penalty is {} dollars".format(round(penalty,2)))
+
+
+  
 
 
 
@@ -431,7 +475,7 @@ def run():
     
     
     # Add a radio box
-    select_tab = st.sidebar.radio("Select tab", ['Commission', 'Property Transfer Tax', 'Mortgage Payment Calculator', 'Interest Rates', 'Variable Vs. Fixed Mortage', 'T-bill Yields (Canada)'])
+    select_tab = st.sidebar.radio("Select tab", ['Commission', 'Property Transfer Tax', 'Mortgage Payment Calculator', 'Interest Rates', 'Variable Vs. Fixed Mortage', 'Prepayment', 'T-bill Yields (Canada)'])
 
     # Show the selected tab
     if select_tab == 'Commission':
@@ -441,9 +485,11 @@ def run():
     elif select_tab == 'Mortgage Payment Calculator':
         tab_mortgage()
     elif select_tab == 'Interest Rates':
-        tab_interest()    
+        tab_interest()  
     elif select_tab == 'Variable Vs. Fixed Mortage':
-        tab_fix_var()        
+        tab_fix_var()  
+    elif select_tab == 'Prepayment':
+        tab_prepay()        
     elif select_tab == 'T-bill Yields (Canada)':
         tab_tbill()    
    
