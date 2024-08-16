@@ -4,6 +4,7 @@ import io
 import numpy as np
 import pandas as pd
 import plotly.express as px
+import math
 
 def amortization(r,P,a,f = 'Monthly'):
     
