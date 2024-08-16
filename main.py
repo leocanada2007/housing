@@ -304,7 +304,10 @@ def tab3():
 
 def tab4():
     st.markdown('''
-    :red[Be very careful for interest rate hikes as this program assumes no monthly payment adjustment (i.e, hitting trigger rate results in negative amortization]''')
+    :red[Be very careful for interest rate hikes as this program assumes no monthly payment adjustment (i.e, hitting trigger rate results in negative amortization)]''')
+    
+    P = st.number_input("Enter Loan Amount", value = 200000)
+    a = st.number_input("Enter Amortization Period in Month", value = 360)
     
     st.write("Use the sample input file as template. Add as many rows as needed, but do not change columns.")
     
