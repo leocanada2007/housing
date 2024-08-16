@@ -131,7 +131,7 @@ def tab2():
   r = st.number_input("Enter Annual Nominal Interest Rate in %", value = 4)
   a = st.number_input("Enter Amortization Period in Month", value = 360)
   f = st.selectbox("Select Payment Frequency",
-                  ('Monthly', ''Semi-Monthly', 'Bi-Weekly', 'Weekly', 'Accelerated Bi-Weekly', 'Accelerated Weekly'),)
+                  ('Monthly', 'Semi-Monthly', 'Bi-Weekly', 'Weekly', 'Accelerated Bi-Weekly', 'Accelerated Weekly'),)
              
   
 
