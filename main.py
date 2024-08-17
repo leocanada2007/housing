@@ -453,7 +453,7 @@ def tab_prepay():
         comparison_rate = comparison_rate/100
         r_e2 = (1+comparison_rate/2)**2-1 
         r_m2 = (1+r_e2)**(1/12)-1 
-        comparison_interest = (amount*r_m-monthly_payment)*((1+r_m2)**remaining_term_in_month-1)/r_m2 + monthly_payment*remaining_term_in_month
+        comparison_interest = (amount*r_m2-monthly_payment)*((1+r_m2)**remaining_term_in_month-1)/r_m2 + monthly_payment*remaining_term_in_month
 
         interest_differential = existing_interest - comparison_interest
 
