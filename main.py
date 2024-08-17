@@ -459,7 +459,7 @@ def tab_prepay():
 
         penalty = max(three_month_interest, interest_differential)
 
-        st.markdown("Prepayment Penalty is {} dollars".format(round(penalty,2)))
+    st.markdown("Prepayment Penalty is {} dollars".format(round(penalty,2)))
 
 
   
