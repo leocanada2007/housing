@@ -401,7 +401,7 @@ def tab_tbill():
       
 #%%
 #==============================================================================
-# Tab 5 Transfer Tax
+# Tab 6 Transfer Tax
 #==============================================================================
 
 def tab_tax():
@@ -415,15 +415,20 @@ def tab_tax():
     elif (price > 2000000):
         tax = 38000 + (price - 2000000)*0.03
 
-    st.markdown("The property transfer tax is {} dolars".format(round(tax,2)))
+    st.markdown("The property transfer tax is {} dollars".format(round(tax,2)))
  
 
 #%%
 #==============================================================================
-# Tab 6 Prepayment
+# Tab 7 Prepayment
 #==============================================================================
 
 def tab_prepay():
+    st.markdown('''
+    :red[This tools is based on CIBC prepayment documents as of August, 2024]''')
+
+    st.markdown('''
+    :red[Source: https://www.cibc.com/en/personal-banking/mortgages/resource-centre/prepayment.html]''')
     
     type = st.selectbox("Select Mortgage Type",
                        ('Variable', 'Fixed'),)
