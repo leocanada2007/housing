@@ -217,26 +217,35 @@ def tab_commission():
 
         total_commission_percentage = round((total_commission/price)*100, 2)
 
-        buy_commission = round(price*0.0322, 2)
+        buy_commission = round(price*0.03255, 2)
 
         buy_commission_percentage = round((buy_commission / price)*100, 2)
 
-        listing_commission = round(price*0.0378, 2)
+        listing_commission = round(price*0.03745, 2)
   
         listing_commission_percentage = round((listing_commission / price)*100, 2)
 
+        after_tax = total_commission * 1.05
+
+        after_tax_percentage = after_tax/total_commission
+
   else:
-      total_commission = round(7000 + (price-100000)*0.02, 2)
+      total_commission = round(7000 + (price-100000)*0.025, 2)
 
       total_commission_percentage = round((total_commission/price)*100, 2)
 
-      buy_commission = round(3220+0.0115*(price-100000), 2)
+      buy_commission = round(3220+0.011625*(price-100000), 2)
 
       buy_commission_percentage = round((buy_commission / price)*100, 3)
 
-      listing_commission = round(3780 + 0.0135*(price-100000),2)
+      listing_commission = round(3780 + 0.013375*(price-100000),2)
   
       listing_commission_percentage = round((listing_commission / price)*100, 2)
+
+      after_tax = total_commission * 1.05
+
+      after_tax_percentage = after_tax/total_commission
+
       
       
 
@@ -244,6 +253,8 @@ def tab_commission():
   
 
   st.write("Total Commission: {}, or {}% of purchase price".format(total_commission, total_commission_percentage))
+
+  st.write("After Tax Commission: {}, or {}% of purchase price".format(after_tax, after_tax_percentage))  
 
   st.write("Commission for Buyer's Agent: {}, or {}% of purchase price".format(buy_commission, buy_commission_percentage))
   
