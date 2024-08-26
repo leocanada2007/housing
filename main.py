@@ -211,17 +211,21 @@ def fixed_variable_rate(df,P,a):
 
 def tab_commission():
   price = st.number_input("Enter Purchase/Sale Price", value = 1000000)
+  first_10k = st.number_input("Enter Coop Commission (aka Buyer Agent Commission) on First $100,000 in %", value = 3.255)
+  first_10k = first_10k/100
+  remaining = st.number_input("Enter Coop Commission (aka Buyer Agent Commission) on Balance in %", value = 1.1625)
+  remaining = remaining/100  
  
   if price<=100000:
         total_commission = round(price * 0.07, 2)
 
         total_commission_percentage = round((total_commission/price)*100, 2)
 
-        buy_commission = round(price*0.03255, 2)
+        buy_commission = round(price*first_10k, 2)
 
         buy_commission_percentage = round((buy_commission / price)*100, 2)
 
-        listing_commission = round(price*0.03745, 2)
+        listing_commission = round(price*(0.07-first_10k), 2)
   
         listing_commission_percentage = round((listing_commission / price)*100, 2)
 
@@ -234,11 +238,11 @@ def tab_commission():
 
       total_commission_percentage = round((total_commission/price)*100, 2)
 
-      buy_commission = round(3220+0.011625*(price-100000), 2)
+      buy_commission = round(price*first_10k+remaining*(price-100000), 2)
 
       buy_commission_percentage = round((buy_commission / price)*100, 3)
 
-      listing_commission = round(3780 + 0.013375*(price-100000),2)
+      listing_commission = round(price*(0.07-first_10k) + (0.025-remaining)*(price-100000),2)
   
       listing_commission_percentage = round((listing_commission / price)*100, 2)
 
