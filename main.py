@@ -231,24 +231,24 @@ def tab_commission():
 
         after_tax = total_commission * 1.05
 
-        after_tax_percentage = after_tax/total_commission
+        after_tax_percentage = after_tax/price
 
   else:
       total_commission = round(7000 + (price-100000)*0.025, 2)
 
       total_commission_percentage = round((total_commission/price)*100, 2)
 
-      buy_commission = round(price*first_10k+remaining*(price-100000), 2)
+      buy_commission = round(100000*first_10k+remaining*(price-100000), 2)
 
       buy_commission_percentage = round((buy_commission / price)*100, 3)
 
-      listing_commission = round(price*(0.07-first_10k) + (0.025-remaining)*(price-100000),2)
+      listing_commission = round(100000*(0.07-first_10k) + (0.025-remaining)*(price-100000),2)
   
       listing_commission_percentage = round((listing_commission / price)*100, 2)
 
       after_tax = total_commission * 1.05
 
-      after_tax_percentage = after_tax/total_commission
+      after_tax_percentage = after_tax/price
 
       
       
