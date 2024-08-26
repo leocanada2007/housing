@@ -231,7 +231,7 @@ def tab_commission():
 
         after_tax = total_commission * 1.05
 
-        after_tax_percentage = after_tax/price
+        after_tax_percentage = round((after_tax/price)*100,2)
 
   else:
       total_commission = round(7000 + (price-100000)*0.025, 2)
@@ -248,7 +248,7 @@ def tab_commission():
 
       after_tax = total_commission * 1.05
 
-      after_tax_percentage = after_tax/price
+      after_tax_percentage = round((after_tax/price)*100,2)
 
       
       
