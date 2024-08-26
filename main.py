@@ -211,7 +211,7 @@ def fixed_variable_rate(df,P,a):
 
 def tab_commission():
   price = st.number_input("Enter Purchase/Sale Price", value = 1000000)
-  first_10k = st.number_input("Enter Coop Commission (aka Buyer Agent Commission) on First $100,000 in %", value = 3.255, format = '%.3\4f')
+  first_10k = st.number_input("Enter Coop Commission (aka Buyer Agent Commission) on First $100,000 in %", value = 3.255, format = '%.4f')
   first_10k = first_10k/100
   remaining = st.number_input("Enter Coop Commission (aka Buyer Agent Commission) on Balance in %", value = 1.1625, format = '%.4f')
   remaining = remaining/100  
